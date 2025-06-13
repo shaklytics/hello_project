@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os, dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -80,15 +80,23 @@ WSGI_APPLICATION = 'hello_project.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "hello_db",
+#         "USER": "hello_user",
+#         "PASSWORD": "super-secret",
+#         "HOST": "localhost",
+#         "PORT": "5432",
+#     }
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "hello_db",
-        "USER": "hello_user",
-        "PASSWORD": "super-secret",
-        "HOST": "localhost",
-        "PORT": "5432",
-    }
+    "default": dj_database_url.config(
+        default=f"postgres://{os.environ['DATABASE_USER']}:{os.environ['DATABASE_PASSWORD']}@/"
+                f"{os.environ['DATABASE_NAME']}?host=/cloudsql/{os.environ['DB_INST']}",
+        conn_max_age=600,
+    )
 }
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -123,7 +131,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
+BASE_DIR = Path(__file__).resolve().parent.parent  # already in most starter projects
 
+STATIC_ROOT = BASE_DIR / "staticfiles"  # <─ add this line (any writable folder is fine)
 STATIC_URL = 'static/'
 
 # Default primary key field type

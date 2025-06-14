@@ -8,15 +8,15 @@ serviceAccount: projects/$PROJECT_ID/serviceAccounts/my-build-sa@${PROJECT_ID}.i
 # choose ONE of the following blocks ↓↓↓
 
 # (A) Send logs to your own bucket
-logsBucket: gs://my-build-logs          # bucket must already exist and be writable by the SA
+# logsBucket: gs://my-build-logs          # bucket must already exist and be writable by the SA
 
-# --- OR ---
+# # --- OR ---
 
-# (B) Let Cloud Build create a regional bucket automatically
-options:
-  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+# # (B) Let Cloud Build create a regional bucket automatically
+# options:
+#   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 
-# --- OR ---
+# # --- OR ---
 
 # (C) Use Cloud Logging only
 options:
